@@ -1,17 +1,15 @@
-import hashlib
 import io
 import json
 import zipfile
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import APIRouter, File, UploadFile
 import fiona
 import fiona.crs
 import fiona.io
 import fiona.transform
 from shapely.geometry import mapping, shape
 
-
-app = FastAPI()
+router = APIRouter()
 
 
 def convert_zipped_shp_to_geojson(zip_file, shp_filename):
@@ -25,7 +23,7 @@ def convert_zipped_shp_to_geojson(zip_file, shp_filename):
         with fio_zip.open(shp_filename) as source:
             # Authorize MultiPolygon because shp file most often only sets Polygon in schema
             if source.schema['geometry'] == 'Polygon':
-                source.schema['geometry'] = ('Polygon', 'MultiPolygon')          
+                source.schema['geometry'] = ('Polygon', 'MultiPolygon')
 
             with fiona.open(
                     f_out,
@@ -42,7 +40,7 @@ def convert_zipped_shp_to_geojson(zip_file, shp_filename):
                     # TODO : handle simplify shape
                     # geo = mapping(shape(rec['geometry']).simplify(0.05))
                     # rec['geometry'] = mapping(geo)
-                    
+
                     sink.write(rec)
 
     # Reset pointer in file handler
@@ -51,13 +49,12 @@ def convert_zipped_shp_to_geojson(zip_file, shp_filename):
     return f_out
 
 
-@app.post("/shp-to-geojson")
+@router.post("/convert-from-shp")
 async def shp_to_geosjon(
-    shp_file: UploadFile = File(...),
-    shx_file: UploadFile = File(...),
-    dbf_file: UploadFile = File(...),
-    prj_file: UploadFile = File(None)):
-
+        shp_file: UploadFile = File(...),
+        shx_file: UploadFile = File(...),
+        dbf_file: UploadFile = File(...),
+        prj_file: UploadFile = File(None)):
     # Build an in-memory zip file with all the files needed for conversion
     zip_buffer = io.BytesIO()
     with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED, False) as zip_file:
