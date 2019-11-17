@@ -25,3 +25,18 @@ Go to `http://localhost:8000/docs` to view OpenAPI documentation
 ## Features
 
 * Convert an ESRI shapefile to GEOJSON
+
+## Docker
+
+A docker image is available : [3slab/pygisapi](https://hub.docker.com/r/3slab/pygisapi)
+
+## Deployment
+
+```
+pipenv lock -r > requirements.txt
+docker build -t 3slab/pygisapi:<version> .
+docker tag 3slab/pygisapi:<version> 3slab/pygisapi:latest
+docker push 3slab/pygisapi:<version>
+git tag -a <version>
+git push --tags
+```
