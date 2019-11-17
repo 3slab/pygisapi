@@ -5,6 +5,8 @@ verify_ssl = true
 
 [dev-packages]
 uvicorn = "*"
+pytest = "*"
+flake8 = "*"
 
 [packages]
 fiona = "*"
