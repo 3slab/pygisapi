@@ -1,7 +1,6 @@
 import inspect
 
 from geopy import get_geocoder_for_service
-from geopy.exc import GeocoderServiceError
 
 
 class GeocodeException(Exception):

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-import inspect
-
 from fastapi import APIRouter, HTTPException, Query
-from geopy.exc import GeocoderServiceError, GeocoderNotFound, GeopyError
+from geopy.exc import GeocoderNotFound, GeopyError
 from pydantic import BaseModel
 from typing import Any
 
