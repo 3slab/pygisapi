@@ -12,6 +12,7 @@ flake8 = "*"
 fiona = "*"
 shapely = "*"
 fastapi = {extras = ["all"],version = "*"}
+geopy = "*"
 
 [requires]
 python_version = "3.7"

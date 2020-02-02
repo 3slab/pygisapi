@@ -1,6 +1,6 @@
 # PyGIS API
 
-Tools to process gis file as API endpoints
+API to provide gis features to projects
 
 [![Build Status](https://travis-ci.org/3slab/pygisapi.svg?branch=master)](https://travis-ci.org/3slab/pygisapi)
 

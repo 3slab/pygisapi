@@ -15,3 +15,5 @@ jobs:
   include:
     - stage: test
       python: '3.7'
+    - stage: test
+      python: '3.8'
