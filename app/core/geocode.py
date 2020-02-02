@@ -15,8 +15,8 @@ def build_geocode_service(provider, api_key=None):
     if 'api_key' in geocode_service_args.parameters and not api_key:
         raise GeocodeException("Provider {} needs an api key".format(provider))
     elif 'api_key' in geocode_service_args.parameters:
-        geocode_service = geocode_service_cls(api_key)
+        geocode_service = geocode_service_cls(api_key, user_agent="pygisapi")
     else:
-        geocode_service = geocode_service_cls()
+        geocode_service = geocode_service_cls(user_agent="pygisapi")
 
     return geocode_service

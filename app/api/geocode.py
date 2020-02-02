@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from fastapi import APIRouter, HTTPException, Query
-from geopy.exc import GeocoderNotFound, GeopyError
+from fastapi import APIRouter, HTTPException, Query, Depends, Path
+from geopy.geocoders.base import Geocoder
+from geopy.exc import GeocoderNotFound, GeocoderQueryError, GeopyError
 from pydantic import BaseModel
 from typing import Any
 
-from ..core.geocode import build_geocode_service, GeocodeException
+from ..core.geocode import build_geocode_service as base_build_geocode_service, GeocodeException
 
 router = APIRouter()
 
@@ -16,19 +17,25 @@ class GeocodeResponse(BaseModel):
     raw: Any = None
 
 
+def build_geocode_service(provider: str = Path(..., description="A geocode service code supported by geopy library"),
+                          api_key: str = Query(None, description="Optional api key mandatory for some services")):
+    try:
+        return base_build_geocode_service(provider, api_key=api_key)
+    except GeocoderNotFound as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except GeocodeException as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 @router.get('/{provider}', summary="Geocode an address using different providers",
             description="This endpoint sends a geocode query to the specified provider",
             response_description="Geocode response (lat, lng)",
             response_model=GeocodeResponse)
-def geocode(provider: str,
-            q: str = Query(..., description="The location you want to geocode"),
-            api_key: str = Query(None, description="Optional api key mandatory for some services")):
+def geocode(q: str = Query(..., description="The location you want to geocode"),
+            geocode_service: Geocoder = Depends(build_geocode_service)):
     try:
-        geocode_service = build_geocode_service(provider, api_key=api_key)
         location = geocode_service.geocode(q)
-    except GeocoderNotFound as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except GeocodeException as e:
+    except GeocoderQueryError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except GeopyError as e:
         raise HTTPException(status_code=500, detail=str(e))
