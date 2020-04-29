@@ -10,6 +10,10 @@ from ..core.geocode import build_geocode_service as base_build_geocode_service, 
 router = APIRouter()
 
 
+class GeocodeErrorResponse(BaseModel):
+    detail: str = None
+
+
 class GeocodeResponse(BaseModel):
     address: str = None
     lat: float = None
@@ -30,7 +34,8 @@ def build_geocode_service(provider: str = Path(..., description="A geocode servi
 @router.get('/{provider}', summary="Geocode an address using different providers",
             description="This endpoint sends a geocode query to the specified provider",
             response_description="Geocode response (lat, lng)",
-            response_model=GeocodeResponse)
+            response_model=GeocodeResponse,
+            responses={400: {"description": "Geocoder query error", "model": GeocodeErrorResponse}})
 def geocode(q: str = Query(..., description="The location you want to geocode"),
             geocode_service: Geocoder = Depends(build_geocode_service)):
     try:
@@ -41,6 +46,9 @@ def geocode(q: str = Query(..., description="The location you want to geocode"),
         raise HTTPException(status_code=500, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+    if location is None:
+        raise HTTPException(status_code=400, detail="No result found for query \"{}\"".format(q))
 
     return {
         'address': location.address,

@@ -40,6 +40,8 @@ class FakeGeocodeService(object):
     def geocode(self, query):
         if query == 'pere noel, pole nord':
             raise GeocoderQueryError('Unable to locate the address : "pere noel, pole nord"')
+        elif query == 'Couffignade':
+            return None
         else:
             return FakeGeocodeResponse()
 
@@ -59,6 +61,12 @@ def test_geocode_provider_address_not_found(override_geocode_depends):
     response = client.get("/geocode/nominatim", params={'q': 'pere noel, pole nord'})
     assert response.status_code == 400
     assert response.json() == {'detail': 'Unable to locate the address : "pere noel, pole nord"'}
+
+
+def test_geocode_provider_address_not_parsable(override_geocode_depends):
+    response = client.get("/geocode/nominatim", params={'q': 'Couffignade'})
+    assert response.status_code == 400
+    assert response.json() == {'detail': 'No result found for query "Couffignade"'}
 
 
 def test_geocode_provider_success(override_geocode_depends):
