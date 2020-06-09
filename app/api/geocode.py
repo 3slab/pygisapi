@@ -22,9 +22,11 @@ class GeocodeResponse(BaseModel):
 
 
 def build_geocode_service(provider: str = Path(..., description="A geocode service code supported by geopy library"),
-                          api_key: str = Query(None, description="Optional api key mandatory for some services")):
+                          api_key: str = Query(None, description="Optional api key mandatory for some services"),
+                          cache: int = Query(0, description="Size of an in memory cache for geocode result "
+                                                            "(0 = disabled)")):
     try:
-        return base_build_geocode_service(provider, api_key=api_key)
+        return base_build_geocode_service(provider, api_key=api_key, cache=cache)
     except GeocoderNotFound as e:
         raise HTTPException(status_code=400, detail=str(e))
     except GeocodeException as e:
