@@ -3,6 +3,7 @@ import pytest
 
 from . import client, app
 from app.api.geocode import build_geocode_service, GeocoderQueryError
+import app.core.geocode as core_geocode
 
 
 def test_geocode_without_query():
@@ -77,3 +78,33 @@ def test_geocode_provider_success(override_geocode_depends):
                                "lat": 48.8905833,
                                "lng": 2.1140494,
                                "raw": {"place_id": 16859956, "osm_type": "node", "osm_id": 1604987399}}
+
+
+@pytest.fixture(scope="session")
+def clear_geocode_service_cache():
+    core_geocode.CACHED_GEOCODER = {}
+    yield None
+    core_geocode.CACHED_GEOCODER = {}
+
+
+def test_build_geocode_service_cache(clear_geocode_service_cache):
+    # test cache
+    geocode_service = build_geocode_service('nominatim', cache=100)
+    assert ('nominatim', 100) in core_geocode.CACHED_GEOCODER
+    assert geocode_service == build_geocode_service('nominatim', cache=100)
+
+    # test cache clear
+    build_geocode_service('nominatim', cache=1000)
+    assert ('nominatim', 1000) in core_geocode.CACHED_GEOCODER
+    assert ('nominatim', 100) not in core_geocode.CACHED_GEOCODER
+
+    # test multiple services
+    geocode_service = build_geocode_service('bing', api_key='key', cache=100)
+    assert ('nominatim', 1000) in core_geocode.CACHED_GEOCODER
+    assert ('bing', 100) in core_geocode.CACHED_GEOCODER
+    assert geocode_service == build_geocode_service('bing', api_key='key', cache=100)
+
+    # test clear cache multiple service
+    build_geocode_service('bing', api_key='key', cache=1000)
+    assert ('bing', 1000) in core_geocode.CACHED_GEOCODER
+    assert ('bing', 100) not in core_geocode.CACHED_GEOCODER
