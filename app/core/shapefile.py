@@ -5,7 +5,7 @@ import fiona.io
 import fiona.transform
 from shapely.geometry import mapping, shape
 
-from .crs import from_crs
+from .coords import from_crs
 
 
 def convert_zipped_shp_to_geojson(zip_file, shp_filename, source_crs=None, dest_crs=None,

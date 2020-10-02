@@ -37,7 +37,8 @@ def build_geocode_service(provider: str = Path(..., description="A geocode servi
             description="This endpoint sends a geocode query to the specified provider",
             response_description="Geocode response (lat, lng)",
             response_model=GeocodeResponse,
-            responses={400: {"description": "Geocoder query error", "model": GeocodeErrorResponse}})
+            responses={400: {"description": "Geocoder query error", "model": GeocodeErrorResponse},
+                       500: {"description": "Internal server error", "model": GeocodeErrorResponse}})
 def geocode(q: str = Query(..., description="The location you want to geocode"),
             geocode_service: Geocoder = Depends(build_geocode_service)):
     try:
