@@ -13,6 +13,7 @@ fiona = "*"
 shapely = "*"
 fastapi = {extras = ["all"],version = "*"}
 geopy = "*"
+pyproj = "*"
 
 [requires]
 python_version = "3.7"

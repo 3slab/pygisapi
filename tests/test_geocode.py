@@ -16,11 +16,13 @@ def test_geocode_without_query():
 def test_geocode_unknown_provider():
     response = client.get("/geocode/unknown", params={'q': '38 rue du président wilson 78230 le pecq'})
     assert response.status_code == 400
-    assert response.json() == {'detail': "Unknown geocoder 'unknown'; options are: dict_keys(['arcgis', 'azure', "
-                                         "'baidu', 'banfrance', 'bing', 'databc', 'geocodeearth', 'geocodefarm', "
-                                         "'geonames', 'google', 'googlev3', 'geolake', 'here', 'ignfrance', 'mapbox', "
-                                         "'opencage', 'openmapquest', 'pickpoint', 'nominatim', 'pelias', 'photon', "
-                                         "'liveaddress', 'tomtom', 'what3words', 'yandex'])"}
+    print(response.json())
+    assert response.json() == {'detail': "Unknown geocoder 'unknown'; options are: dict_keys(['algolia', 'arcgis', "
+                                         "'azure', 'baidu', 'baiduv3', 'banfrance', 'bing', 'databc', 'geocodeearth', "
+                                         "'geocodefarm', 'geonames', 'google', 'googlev3', 'geolake', 'here', "
+                                         "'ignfrance', 'mapbox', 'mapquest', 'maptiler', 'nominatim', 'opencage', "
+                                         "'openmapquest', 'pickpoint', 'pelias', 'photon', 'liveaddress', 'tomtom', "
+                                         "'what3words', 'yandex'])"}
 
 
 def test_geocode_provider_with_api_key():
