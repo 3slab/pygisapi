@@ -27,6 +27,7 @@ Go to `http://localhost:8000/docs` to view OpenAPI documentation
 * Convert an ESRI shapefile to GEOJSON
 * Make a geocode request
 * Convert coordinates from one projection to another
+* Calculate centroid of a geojson
 
 ## Docker
 
