@@ -10,28 +10,54 @@ from typing import Dict, List, Any
 from ..core.shapefile import convert_zipped_shp_to_geojson
 
 
+class TraversableBaseModel(BaseModel):
+    def __delitem__(self, key):
+        self.__delattr__(key)
+
+    def __getitem__(self, key):
+        return self.__getattribute__(key)
+
+    def __setitem__(self, key, value):
+        self.__setattr__(key, value)
+
+    def get(self, key, default=None):
+        if hasattr(self, key):
+            return getattr(self, key)
+        else:
+            return default
+
+
+class StandardErrorResponse(BaseModel):
+    detail: str = None
+
+
 class GeoJSONCrs(BaseModel):
     type: str = None
     properties: Dict[str, Any] = None
 
 
-class GeoJSONGeometry(BaseModel):
+class GeoJSONGeometry(TraversableBaseModel):
     type: str
     coordinates: List = None
 
 
-class GeoJSONFeature(BaseModel):
+class GeoJSONFeature(TraversableBaseModel):
     type: str
     properties: Dict[str, Any] = None
     geometry: GeoJSONGeometry = None
 
 
-class GeoJSON(BaseModel):
+class GeoJSON(TraversableBaseModel):
     type: str
     crs: GeoJSONCrs = None
     features: List[GeoJSONFeature] = None
     properties: Dict[str, Any] = None
     geometry: GeoJSONGeometry = None
+
+
+class CoordinatesResponse(BaseModel):
+    x: float = None
+    y: float = None
 
 
 def route_convert_shop_to_geojson(router: APIRouter, path: str):
