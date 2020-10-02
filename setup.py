@@ -11,7 +11,7 @@ setup(
     keywords="api, gis, geojson, shapefile",
     url="https://github.com/3slab/pygisapi",
     packages=find_packages(exclude=["*.test", "*.test.*", "test.*", "test"]),
-    install_requires=('fiona', 'shapely', 'fastapi', 'geopy', 'pyproj'),
+    install_requires=('fiona', 'shapely', 'fastapi[all]', 'geopy', 'pyproj'),
     extras_require={
         'test': ['pytest', 'flake8']
     }
