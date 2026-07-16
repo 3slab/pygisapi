@@ -4,16 +4,18 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-uvicorn = "*"
 pytest = "*"
 flake8 = "*"
 
 [packages]
 fiona = "*"
 shapely = "*"
-fastapi = {extras = ["all"],version = "*"}
+fastapi = {extras = ["all"], version = "*"}
 geopy = "*"
 pyproj = "*"
+uvicorn = "*"
+uvloop = ">=0.19.0"
+httptools = ">=0.5.0"
 
 [requires]
-python_version = "3.7"
+python_version = "3.12"
