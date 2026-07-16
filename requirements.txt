@@ -23,7 +23,7 @@ h11==0.14.0
 httptools==0.6.1                 # compatible 3.12
 idna==3.7
 itsdangerous==2.2.0
-jinja2==3.1.4
+jinja2==3.1.6
 markupsafe==2.1.5
 munch==4.0.0
 promise==2.3                     # très vieux, mais toujours publié; pour graphene v3 tu peux souvent l’enlever
