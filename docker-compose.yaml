@@ -1,0 +1,23 @@
+services:
+  gis-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gis-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+    environment:
+      - REDIS_HOST=pygisapi-redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+
+    links:
+      - pygisapi-redis
+
+  pygisapi-redis:
+    image: redis:7
+    container_name: pygisapi-redis
+    ports:
+      - "6379:6379"

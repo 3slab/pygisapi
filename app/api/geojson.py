@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from fastapi import APIRouter
-from pydantic.typing import Union, List
+from typing import Union, List
 from shapely.geometry import shape, GeometryCollection
 
 from .shared import route_convert_shop_to_geojson, CoordinatesResponse, StandardErrorResponse, GeoJSON

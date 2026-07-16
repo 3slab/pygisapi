@@ -1,41 +1,44 @@
--i https://pypi.org/simple/
-aiofiles==0.5.0
-aniso8601==7.0.0
-async-exit-stack==1.0.1
-async-generator==1.10
-attrs==19.3.0
-certifi==2020.6.20
-chardet==3.0.4
+-i https://pypi.org/simple
+--extra-index-url https://pypi.org/simple/uvicorn==0.30.6
+aiofiles==24.1.0
+aniso8601==9.0.1
+async-exit-stack==1.0.1          # plus vraiment nécessaire en 3.12, mais reste compatible
+async-generator==1.10            # idem, peut souvent être supprimé
+attrs==24.2.0
+certifi==2024.7.4
+chardet==5.2.0                   # ou remplacer par `charset-normalizer` selon les libs
 click-plugins==1.1.1
-click==7.1.2
-cligj==0.5.0
-dnspython==2.0.0
-email-validator==1.1.1
-fastapi[all]==0.47.1
-fiona==1.8.13
-geographiclib==1.50
-geopy==1.20.0
-graphene==2.1.8
-graphql-core==2.3.2
-graphql-relay==2.0.1
-h11==0.9.0
-httptools==0.1.1 ; sys_platform != 'win32' and sys_platform != 'cygwin' and platform_python_implementation != 'PyPy'
-idna==2.10
-itsdangerous==1.1.0
-jinja2==2.11.2
-markupsafe==1.1.1
-munch==2.5.0
-promise==2.3
-pydantic==1.6.1
-python-multipart==0.0.5
-pyyaml==5.3.1
-requests==2.24.0
-rx==1.6.1
-shapely==1.7.0
-six==1.15.0
-starlette==0.12.9
-ujson==3.0.0
-urllib3==1.25.10
-uvicorn==0.11.7
-uvloop==0.14.0 ; sys_platform != 'win32' and sys_platform != 'cygwin' and platform_python_implementation != 'PyPy'
-websockets==8.1
+click==8.1.7
+cligj==0.7.2
+dnspython==2.7.0
+email-validator==2.1.1
+fastapi[all]==0.115.0            # FastAPI récent, compatible 3.12
+fiona==1.9.6                     # fiona 1.9.x avec roues pour 3.12
+geographiclib==2.0
+geopy==2.4.1
+graphene==3.3                     # passage à graphene v3 (API légèrement différente)
+graphql-core==3.2.3              # core v3 pour graphene 3
+graphql-relay==3.2.0
+h11==0.14.0
+httptools==0.6.1                 # compatible 3.12
+idna==3.7
+itsdangerous==2.2.0
+jinja2==3.1.4
+markupsafe==2.1.5
+munch==4.0.0
+promise==2.3                     # très vieux, mais toujours publié; pour graphene v3 tu peux souvent l’enlever
+pydantic==2.8.2                  # passer à Pydantic v2 (breaking changes)
+python-multipart==0.0.9
+pyyaml==6.0.2
+requests==2.32.3
+rx==3.2.0                        # rxpy moderne; API diffère de 1.x
+shapely==2.0.6                   # shapely 2.x avec roues 3.12
+six==1.16.0                      # dernière version
+starlette==0.38.2                # adapté à FastAPI récent
+ujson==5.10.0
+urllib3==2.2.2
+uvicorn==0.30.3
+uvloop==0.19.0                   # compatible 3.12
+websockets==12.0
+pyproj==3.7.2
+redis>=5.0.0
