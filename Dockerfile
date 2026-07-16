@@ -26,6 +26,6 @@ COPY ./app /app/app
 USER appuser
 
 # Lancer Uvicorn (adapter module:app)
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000","--no-access-log"]
 
 # CMD ["tail", "-f", "/dev/null" ]

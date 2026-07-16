@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
+from .logging_config import setup_logging
+setup_logging()
+
+import logging
+logger = logging.getLogger(__name__)
+
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from .api import geocode, geojson, shapefile, coords
 from fastapi.openapi.docs import get_redoc_html
+from .middlewares.access_log import JSONLoggingMiddleware
 
 app = FastAPI(
     title="PyGISAPI",
@@ -10,6 +17,7 @@ app = FastAPI(
     version="1.0.0",
     redoc_url=False,
 )
+app.add_middleware(JSONLoggingMiddleware)
 
 @app.get("/redoc", include_in_schema=False)
 async def custom_redoc_html():
