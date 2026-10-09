@@ -15,7 +15,7 @@ email-validator==2.1.1
 fastapi[all]==0.115.0            # FastAPI récent, compatible 3.12
 fiona==1.9.6                     # fiona 1.9.x avec roues pour 3.12
 geographiclib==2.0
-geopy==2.4.1
+geopy==2.5.0
 graphene==3.3                     # passage à graphene v3 (API légèrement différente)
 graphql-core==3.2.3              # core v3 pour graphene 3
 graphql-relay==3.2.0
